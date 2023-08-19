@@ -21,7 +21,7 @@ const SignIn = () => {
                         <label htmlFor="remember-me">Remember me</label>
                     </div>
 
-                    {/* Note: We replaced the anchor tag with the Button component */}
+                  
                     <Button onClick={handleSignIn}>Sign In</Button>
                 </form>
             </section>

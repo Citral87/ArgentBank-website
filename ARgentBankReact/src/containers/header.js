@@ -17,13 +17,11 @@ const Header = () => {
             </Link>
             <div>
                 <Link to="/sign-in" className="main-nav-item">
-                    
-                    <FontAwesomeIcon icon={faUserCircle} />
+                    <FontAwesomeIcon  icon={faUserCircle} />
                     Sign In
                 </Link>
             </div>
         </nav>
     );
 }
-
 export default Header;
