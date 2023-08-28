@@ -1,12 +1,13 @@
 import React from 'react';
 
-const FormInput = ({ label, type, id }) => {
+const FormInput = React.forwardRef(({ label, type, id }, ref) => {
     return (
         <div className="input-wrapper">
             <label htmlFor={id}>{label}</label>
-            <input type={type} id={id} />
+            <input ref={ref} type={type} id={id} />
         </div>
     );
-}
+});
 
 export default FormInput;
+
