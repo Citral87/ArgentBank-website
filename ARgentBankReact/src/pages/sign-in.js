@@ -1,28 +1,34 @@
-import React, { useRef } from 'react';
-import FormInput from '../components/FormInput';
-import Button from '../components/buton';
-import { useDispatch } from 'react-redux';
+import React, { useRef, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom'; 
 import { login } from '../features/auth/authSlice';  
+import Button from '../components/buton'; 
+import FormInput from '../components/FormInput';
 
 const SignIn = () => {
     const dispatch = useDispatch();
-
+    const navigate = useNavigate(); 
+    const isLoggedIn = useSelector(state => state.auth.isLoggedIn); 
     const usernameRef = useRef(null);
     const passwordRef = useRef(null);
 
+    useEffect(() => {
+        if (isLoggedIn) {
+            console.log('Redirecting...');
+            navigate('/user'); 
+        }
+    }, [isLoggedIn, navigate]);
+
     const handleSignIn = () => {
-        console.log("Handle Sign In Called");
         const username = usernameRef.current.value;
         const password = passwordRef.current.value;
-        console.log("Username:", username);
-        console.log("Password:", password);
-    
+        console.log('Dispatching login action'); 
         dispatch(login(username, password));  
     }
     
 
     return (
-        <main className="main bg-dark">
+        <main className="main bg-dark style">
             <section className="sign-in-content">
                 <i className="fa fa-user-circle sign-in-icon"></i>
                 <h1>Sign In</h1>
@@ -43,7 +49,8 @@ const SignIn = () => {
                         <label htmlFor="remember-me">Remember me</label>
                     </div>
 
-                    <Button type="button" onClick={handleSignIn}>Sign In</Button>
+                    <Button className="sign-in-button" label="Sign In" onClick={handleSignIn} />
+
                 </form>
             </section>
         </main>

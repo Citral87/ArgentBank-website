@@ -173,12 +173,13 @@ body {
   background-color: white;
   width: 300px;
   margin: 0 auto;
-  margin-top: 3rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
   padding: 2rem;
 }
 
 .sign-in-icon {
-  font-size: 5rem;
+  font-size: 2rem;
 }
 
 .input-remember {
@@ -265,6 +266,7 @@ body {
 .header {
   color: #fff;
   margin-bottom: 2rem;
+  
 }
 
 .transaction-button {
@@ -291,4 +293,28 @@ body {
   .transaction-button {
     width: 200px;
   }
+}
+.main.bg-dark.style {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+}
+
+.buttonForm {
+  border-color: #00bc77;
+  background-color: #00bc77;
+  color: #fff;
+  font-weight: bold;
+  padding: 10px;
+  margin: 15px;
+  width: 120px;
+}
+.centered-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.centered-form label {
+  margin-bottom: 10px;
 }

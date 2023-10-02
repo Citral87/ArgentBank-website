@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loginUser } from '../../apiservice'; 
+import { loginUser, updateUserProfile } from '../../apiservice';
 
 const initialState = {
   isLoggedIn: false,
@@ -12,6 +12,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    
     loginStart: (state) => {
       state.isLoading = true;
       state.error = null;
@@ -25,33 +26,62 @@ const authSlice = createSlice({
       state.error = action.payload;
       state.isLoading = false;
     },
-    // logout
+    logout: (state) => {
+      state.isLoggedIn = false;
+      state.userInfo = null;
+    },
+    updateProfileStart: (state) => {
+      state.isLoading = true;
+      state.error = null;
+    },
+    updateProfileSuccess: (state, action) => {
+      state.userInfo = action.payload;
+      state.isLoading = false;
+    },
+    updateProfileFailed: (state, action) => {
+      state.error = action.payload;
+      state.isLoading = false;
+    },
   },
 });
 
-export const { loginStart, loginSuccess, loginFailed } = authSlice.actions;
 
+export const {
+  loginStart,
+  loginSuccess,
+  loginFailed,
+  logout,
+  updateProfileStart,
+  updateProfileSuccess,
+  updateProfileFailed,
+} = authSlice.actions;
 
 export const login = (email, password) => async (dispatch) => {
-  console.log("login avec email:", email, "mot de passe:", password);  
 
   dispatch(loginStart());
-
   try {
-      const response = await loginUser(email, password);
-      const userData = response.data;
+    const response = await loginUser(email, password);
 
-      console.log("Réponse de l'API:", response);  
-      console.log("Données utilisateur:", userData);  
-
-      dispatch(loginSuccess(userData));
+    const userData = response.data;
+    localStorage.setItem("token", userData.body.token)
+    dispatch(loginSuccess(userData));
   } catch (error) {
-      console.error("Erreur lors de la connexion:", error);  
 
-      dispatch(loginFailed(error.response ? error.response.data : error.message));
+    dispatch(loginFailed(error.response ? error.response.data : error.message));
+  }
+};
+
+
+
+export const updateProfile = (userInfo) => async (dispatch) => {
+  dispatch(updateProfileStart());
+  try {
+    const response = await updateUserProfile(userInfo); 
+    dispatch(updateProfileSuccess(response.data));
+  } catch (error) {
+    dispatch(updateProfileFailed(error.response ? error.response.data : error.message));
   }
 };
 
 
 export default authSlice.reducer;
-

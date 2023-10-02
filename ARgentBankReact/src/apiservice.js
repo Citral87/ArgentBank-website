@@ -31,8 +31,8 @@ export const getUserProfile = () => {
   return apiService.post('/user/profile');
 };
 
-export const updateUserProfile = (userName) => {
-  return apiService.put('/user/profile', { userName });
+export const updateUserProfile = (userInfo) => {
+  return apiService.put('/user/profile', userInfo);
 };
 
 export default apiService;
