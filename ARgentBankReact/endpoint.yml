@@ -1,0 +1,199 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: 'API Transactions'
+  description: 'API pour gérer les transactions'
+host: 'api.com'
+schemes:
+  - https
+basePath: '/v1'
+produces:
+  - application/json
+paths:
+  /transactions:
+    get:
+      summary: 'Récupère une liste de toutes les transactions'
+      responses:
+        200:
+          description: 'Liste des transactions'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Transaction'
+
+  /transactions/statistics:
+    get:
+      summary: 'Récupère les statistiques des transactions'
+      responses:
+        200:
+          description: 'Statistiques des transactions'
+          schema:
+            $ref: '#/definitions/Statistics'
+
+  /transactions/search:
+    post:
+      summary: 'Recherche de transactions basée sur des critères'
+      parameters:
+        - in: body
+          name: body
+          description: 'Critères de recherche'
+          schema:
+            $ref: '#/definitions/SearchCriteria'
+      responses:
+        200:
+          description: 'Résultats de la recherche'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Transaction'
+
+  /transaction/{id}/category:
+    put:
+      summary: 'Met à jour la catégorie '
+      parameters:
+        - name: id
+          in: path
+          description: 'ID de la transaction'
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: 'Nouvelle catégorie pour la transaction'
+          schema:
+            $ref: '#/definitions/Category'
+      responses:
+        200:
+          description: 'Catégorie mise à jour avec succès'
+
+  /transaction/{id}/note:
+    put:
+      summary: 'Ajoute/modifie une note pour une transaction'
+      parameters:
+        - name: id
+          in: path
+          description: 'ID de la transaction'
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: 'Nouvelle note pour la transaction'
+          schema:
+            $ref: '#/definitions/Note'
+      responses:
+        200:
+          description: 'Note mise à jour avec succès'
+
+  /transaction-categories:
+    get:
+      summary: 'Récupère toutes les catégories de transactions'
+      responses:
+        200:
+          description: 'Liste des catégories'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Category'
+
+  /modifiable-categories:
+    get:
+      summary: 'Récupère les catégories modifiables'
+      responses:
+        200:
+          description: 'Liste des catégories modifiables'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ModifiableCategory'
+    post:
+      summary: 'Ajoute une nouvelle catégorie modifiable'
+      parameters:
+        - in: body
+          name: body
+          description: 'Détails de la nouvelle catégorie'
+          schema:
+            $ref: '#/definitions/ModifiableCategory'
+      responses:
+        201:
+          description: 'Catégorie ajoutée avec succès'
+
+  /modifiable-category/{id}:
+    put:
+      summary: 'Met à jour une catégorie modifiable'
+      parameters:
+        - name: id
+          in: path
+          description: 'ID de la catégorie'
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: 'Détails mis à jour pour la catégorie'
+          schema:
+            $ref: '#/definitions/ModifiableCategory'
+      responses:
+        200:
+          description: 'Catégorie mise à jour avec succès'
+    delete:
+      summary: 'Supprime une catégorie modifiable'
+      parameters:
+        - name: id
+          in: path
+          description: 'ID de la catégorie'
+          required: true
+          type: string
+      responses:
+        204:
+          description: 'Catégorie supprimée avec succès'
+
+definitions:
+  Transaction:
+    type: object
+    properties:
+      id:
+        type: string
+      date:
+        type: string
+        format: date
+      description:
+        type: string
+      amount:
+        type: string
+      balance:
+        type: string
+      type:
+        type: string
+      category:
+        type: string
+      note:
+        type: string
+  Category:
+    type: object
+    properties:
+      category:
+        type: string
+  Note:
+    type: object
+    properties:
+      note:
+        type: string
+  SearchCriteria:
+    type: object
+    properties:
+      term:
+        type: string
+  Statistics:
+    type: object
+    properties:
+      totalSpent:
+        type: string
+      highestTransaction:
+        type: string
+      totalTransactions:
+        type: integer
+  ModifiableCategory:
+    type: object
+    properties:
+      name:
+        type: string
+      description:
+        type: string

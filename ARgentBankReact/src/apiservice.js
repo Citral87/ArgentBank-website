@@ -12,6 +12,7 @@ const apiService = axios.create({
 
 
 export const setAuthToken = (token) => {
+  console.log('Setting auth token:', token);
   if (token) {
     apiService.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   } else {
@@ -28,11 +29,21 @@ export const signupUser = (email, password, firstName, lastName, userName) => {
 };
 
 export const getUserProfile = () => {
+  
   return apiService.post('/user/profile');
 };
 
 export const updateUserProfile = (userInfo) => {
   return apiService.put('/user/profile', userInfo);
 };
+
+
+
+export const fetchAccountTransactions = (accountId) => {
+  return apiService.get(`/accounts/${accountId}/transactions`);
+};
+
+
+
 
 export default apiService;

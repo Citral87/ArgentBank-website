@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";  // Fusionné en une seule ligne
+import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Provider } from 'react-redux';
 import store from './redux/store'; 
@@ -9,8 +10,20 @@ import SignIn from "./pages/sign-in";
 import User from './pages/user'; 
 import "./App.css";
 import "../src/css/main.css";
+import { loginSuccess } from '../../ARgentBankReact/src/features/auth/authSlice';
+
 
 function App() {
+  const dispatch = useDispatch();
+
+  // Votre hook useEffect vient ici
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        dispatch(loginSuccess({ body: { token } }));
+    }
+  }, [dispatch]);
+
   return (
     <Provider store={store}>
       <Router>

@@ -4,6 +4,7 @@ import { loginUser, updateUserProfile } from '../../apiservice';
 const initialState = {
   isLoggedIn: false,
   userInfo: null,
+  token: null,
   error: null,
   isLoading: false,
 };
@@ -20,16 +21,21 @@ const authSlice = createSlice({
     loginSuccess: (state, action) => {
       state.isLoggedIn = true;
       state.userInfo = action.payload;
+      state.token = action.payload.body.token;  // Stock token 
       state.isLoading = false;
     },
+    
     loginFailed: (state, action) => {
       state.error = action.payload;
       state.isLoading = false;
     },
     logout: (state) => {
+      localStorage.removeItem('token');  // Supprimez le token du localStorage ici
       state.isLoggedIn = false;
       state.userInfo = null;
+      state.token = null;  // Réinitialisez le token dans l'état Redux ici
     },
+    
     updateProfileStart: (state) => {
       state.isLoading = true;
       state.error = null;
@@ -59,6 +65,7 @@ export const {
 export const login = (email, password) => async (dispatch) => {
 
   dispatch(loginStart());
+
   try {
     const response = await loginUser(email, password);
 

@@ -299,6 +299,7 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 50vh;
+  
 }
 
 .buttonForm {
@@ -318,3 +319,52 @@ body {
 .centered-form label {
   margin-bottom: 10px;
 }
+
+/* Styles pour la page de l'utilisateur */
+
+
+
+
+
+
+
+
+
+
+
+
+
+.account-section {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 85%;
+}
+
+.account-content-wrapper {
+  flex: 1;
+  padding: 0 20px;
+  
+}
+
+.account-title {
+  color: #333;
+  margin-top: 0;
+}
+
+.account-amount {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.account-amount-description {
+  color: #888;
+}
+
+
+

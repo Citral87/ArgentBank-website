@@ -20,11 +20,12 @@ const SignIn = () => {
     }, [isLoggedIn, navigate]);
 
     const handleSignIn = () => {
-        const username = usernameRef.current.value;
+        const email = usernameRef.current.value; 
         const password = passwordRef.current.value;
         console.log('Dispatching login action'); 
-        dispatch(login(username, password));  
+        dispatch(login(email, password));  
     }
+    
     
 
     return (
