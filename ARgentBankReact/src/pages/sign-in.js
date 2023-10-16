@@ -14,7 +14,6 @@ const SignIn = () => {
 
     useEffect(() => {
         if (isLoggedIn) {
-            console.log('Redirecting...');
             navigate('/user'); 
         }
     }, [isLoggedIn, navigate]);
@@ -22,7 +21,6 @@ const SignIn = () => {
     const handleSignIn = () => {
         const email = usernameRef.current.value; 
         const password = passwordRef.current.value;
-        console.log('Dispatching login action'); 
         dispatch(login(email, password));  
     }
     
