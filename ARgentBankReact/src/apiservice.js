@@ -39,8 +39,6 @@ export const updateUserProfile = (userInfo) => {
   return apiService.put("/user/profile", userInfo);
 };
 
-export const fetchAccountTransactions = (accountId) => {
-  return apiService.get(`/accounts/${accountId}/transactions`);
-};
+
 
 export default apiService;
