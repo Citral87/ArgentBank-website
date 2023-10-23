@@ -39,6 +39,4 @@ export const updateUserProfile = (userInfo) => {
   return apiService.put("/user/profile", userInfo);
 };
 
-
-
 export default apiService;

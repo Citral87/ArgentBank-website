@@ -13,16 +13,16 @@ produces:
 paths:
   /users/{userId}/accounts:
     get:
-      summary: 'Récupère la liste des comptes '
+      summary: 'Récupère la liste des comptes'
       parameters:
         - name: userId
           in: path
-          description: 'IDutilisateur'
+          description: 'ID utilisateur'
           required: true
           type: string
       responses:
         200:
-          description: 'Liste des comptes '
+          description: 'Liste des comptes'
           schema:
             type: array
             items:
@@ -31,14 +31,14 @@ paths:
           description: 'Invalid Fields'
         500:
           description: 'Internal Server Error'
-  
+
   /users/{userId}/accounts/{accountId}/transactions:
     get:
-      summary: 'Récupère les transactions '
+      summary: 'Récupère les transactions'
       parameters:
         - name: userId
           in: path
-          description: 'IDutilisateur'
+          description: "ID utilisateur"
           required: true
           type: string
         - name: accountId
@@ -57,14 +57,14 @@ paths:
           description: 'Invalid Fields'
         500:
           description: 'Internal Server Error'
-  
+
   /users/{userId}/accounts/{accountId}/transactions/{transactionId}:
     get:
-      summary: 'Récupère les détails '
+      summary: 'Récupère les détails d''une transaction'
       parameters:
         - name: userId
           in: path
-          description: 'ID de l\utilisateur'
+          description: "ID utilisateur"
           required: true
           type: string
         - name: accountId
@@ -86,14 +86,14 @@ paths:
           description: 'Invalid Fields'
         500:
           description: 'Internal Server Error'
-  
+
   /users/{userId}/accounts/{accountId}/transactions/{transactionId}/category:
     put:
-      summary: 'Met à jour la catégorie d\une transaction'
+      summary: 'Met à jour la catégorie d''une transaction'
       parameters:
         - name: userId
           in: path
-          description: 'ID de l\utilisateur'
+          description: "ID utilisateur"
           required: true
           type: string
         - name: accountId
@@ -118,14 +118,69 @@ paths:
           description: 'Invalid Fields'
         500:
           description: 'Internal Server Error'
-
-  /users/{userId}/accounts/{accountId}/transactions/{transactionId}/note:
-    put:
-      summary: 'Ajoute/modifie une note pour une transaction'
+    post:
+      summary: 'Ajoute une catégorie à une transaction'
       parameters:
         - name: userId
           in: path
-          description: 'ID de l\utilisateur'
+          description: "ID utilisateur"
+          required: true
+          type: string
+        - name: accountId
+          in: path
+          description: 'ID du compte'
+          required: true
+          type: string
+        - name: transactionId
+          in: path
+          description: 'ID de la transaction'
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: 'Catégorie pour la transaction'
+          schema:
+            $ref: '#/definitions/Category'
+      responses:
+        201:
+          description: 'Catégorie ajoutée avec succès'
+        400:
+          description: 'Invalid Fields'
+        500:
+          description: 'Internal Server Error'
+    delete:
+      summary: 'Supprime la catégorie d''une transaction'
+      parameters:
+        - name: userId
+          in: path
+          description: "ID utilisateur"
+          required: true
+          type: string
+        - name: accountId
+          in: path
+          description: 'ID du compte'
+          required: true
+          type: string
+        - name: transactionId
+          in: path
+          description: 'ID de la transaction'
+          required: true
+          type: string
+      responses:
+        200:
+          description: 'Catégorie supprimée avec succès'
+        400:
+          description: 'Invalid Fields'
+        500:
+          description: 'Internal Server Error'
+
+  /users/{userId}/accounts/{accountId}/transactions/{transactionId}/note:
+    put:
+      summary: 'Met à jour la note d''une transaction'
+      parameters:
+        - name: userId
+          in: path
+          description: "ID utilisateur"
           required: true
           type: string
         - name: accountId
@@ -150,7 +205,61 @@ paths:
           description: 'Invalid Fields'
         500:
           description: 'Internal Server Error'
-
+    post:
+      summary: 'Ajoute une note à une transaction'
+      parameters:
+        - name: userId
+          in: path
+          description: "ID utilisateur"
+          required: true
+          type: string
+        - name: accountId
+          in: path
+          description: 'ID du compte'
+          required: true
+          type: string
+        - name: transactionId
+          in: path
+          description: 'ID de la transaction'
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: 'Note pour la transaction'
+          schema:
+            $ref: '#/definitions/Note'
+      responses:
+        201:
+          description: 'Note ajoutée avec succès'
+        400:
+          description: 'Invalid Fields'
+        500:
+          description: 'Internal Server Error'
+    delete:
+      summary: 'Supprime la note d''une transaction'
+      parameters:
+        - name: userId
+          in: path
+          description: "ID utilisateur"
+          required: true
+          type: string
+        - name: accountId
+          in: path
+          description: 'ID du compte'
+          required: true
+          type: string
+        - name: transactionId
+          in: path
+          description: 'ID de la transaction'
+          required: true
+          type: string
+      responses:
+        200:
+          description: 'Note supprimée avec succès'
+        400:
+          description: 'Invalid Fields'
+        500:
+          description: 'Internal Server Error'
 
 definitions:
   Account:
@@ -158,49 +267,32 @@ definitions:
     properties:
       id:
         type: string
-      userId:
-        type: string
       name:
         type: string
       balance:
-        type: string
-      currency:
-        type: string
-
+        type: number
   Transaction:
     type: object
     properties:
       id:
         type: string
-      accountId:
-        type: string
       date:
         type: string
-        format: date
+      amount:
+        type: number
       description:
         type: string
-      amount:
-        type: string
-      balance:
-        type: string
-      category:          
-        type: string     
-      note:              
-        type: string     
-
-
-     
-
   Category:
     type: object
     properties:
-      category:
+      id:
         type: string
-  
+      name:
+        type: string
   Note:
     type: object
     properties:
-      note:
+      id:
         type: string
-  
- 
+      content:
+        type: string

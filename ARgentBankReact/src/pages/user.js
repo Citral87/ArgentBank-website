@@ -47,9 +47,10 @@ const User = () => {
   const handleUpdate = (e) => {
     e.preventDefault();
     dispatch(updateProfile({ userName: editingUserName }));
-    setEditingUserName(editingUserName);
+    setLocalUserName(editingUserName);
     setIsEditing(false);
   };
+  
 
   const handleCancel = () => {
     setIsEditing(false);
@@ -66,10 +67,14 @@ const User = () => {
               <label>
                 Username:
                 <input
-                  type="text"
-                  value={editingUserName}
-                  onChange={(e) => setEditingUserName(e.target.value)}
-                />
+  type="text"
+  value={editingUserName}
+  onChange={(e) => {
+
+    setEditingUserName(e.target.value);
+  }}
+/>
+
               </label>
               <label>
                 First Name:
