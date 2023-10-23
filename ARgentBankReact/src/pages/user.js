@@ -1,49 +1,53 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateProfile, setUserName, loginSuccess  } from "../features/auth/authSlice";
+import {
+  updateProfile,
+  setUserName,
+  loginSuccess,
+} from "../features/auth/authSlice";
 import Button from "../components/buton";
 import { setAuthToken, getUserProfile } from "../apiservice";
+import { useNavigate } from "react-router-dom";
+import Account from '../components/account';
+
 
 const User = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userInfo = useSelector((state) => state.auth.userInfo);
+
   const [isEditing, setIsEditing] = useState(false);
   const [localUserName, setLocalUserName] = useState("");
-  const { userName } = useSelector((state) => state.auth.userInfo);
-
   const [editingUserName, setEditingUserName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) return;
+    if (!token) {
+      navigate("/sign-in");
+      return;
+    }
     setAuthToken(token);
     getUserProfile()
-  .then((response) => {
-    const updatedUserInfo = response.data.body;
-    setUserInfoState(updatedUserInfo);
-    
-    dispatch(loginSuccess(updatedUserInfo));
-  })
-  .catch((error) => {});
-
-
-  }, [userInfo]);
+      .then((response) => {
+        const updatedUserInfo = response.data.body;
+        setUserInfoState(updatedUserInfo);
+        dispatch(loginSuccess(updatedUserInfo));
+      })
+      .catch((error) => {});
+  }, [dispatch, navigate]);
 
   const setUserInfoState = (userInfo) => {
-    dispatch(setUserName(userInfo.userName || ""));
-    
     setLocalUserName(userInfo.userName || "");
     setFirstName(userInfo.firstName || "");
     setLastName(userInfo.lastName || "");
-};
-
+  };
 
   const handleUpdate = (e) => {
     e.preventDefault();
     dispatch(updateProfile({ userName: editingUserName }));
-    setUserName(editingUserName);
+    setEditingUserName(editingUserName);
     setIsEditing(false);
   };
 
@@ -54,7 +58,7 @@ const User = () => {
   return (
     <main className="main bg-dark">
       <div className="header">
-        <h1>Welcome back {userName}!</h1>
+        <h1>Welcome back {localUserName}!</h1>
         {isEditing ? (
           <>
             <h2>Edit User Info</h2>
@@ -92,46 +96,36 @@ const User = () => {
             className="edit-button"
             label="Edit Name"
             onClick={() => {
-              setEditingUserName(userName);
+              setEditingUserName(localUserName);
               setIsEditing(true);
             }}
           />
         )}
       </div>
       <h2 className="sr-only">Accounts</h2>
-      <div className="account">
-        <div className="account-content-wrapper">
-          <h3 className="account-title">Argent Bank Checking (x8349)</h3>
-          <p className="account-amount">$2,082.79</p>
-          <p className="account-amount-description">Available Balance</p>
-        </div>
-        <div className="account-content-wrapper cta">
-          <button className="transaction-button">View transactions</button>
-        </div>
-      </div>
 
-      <div className="account">
-        <div className="account-content-wrapper">
-          <h3 className="account-title">Argent Bank Savings (x6712)</h3>
-          <p className="account-amount">$10,928.42</p>
-          <p className="account-amount-description">Available Balance</p>
-        </div>
-        <div className="account-content-wrapper cta">
-          <button className="transaction-button">View transactions</button>
-        </div>
-      </div>
+        <Account
+            title="Argent Bank Checking"
+            accountNumber="x8349"
+            amount="2,082.79"
+            description="Available Balance"
+        />
 
-      <div className="account">
-        <div className="account-content-wrapper">
-          <h3 className="account-title">Argent Bank Credit Card (x8349)</h3>
-          <p className="account-amount">$184.30</p>
-          <p className="account-amount-description">Current Balance</p>
-        </div>
-        <div className="account-content-wrapper cta">
-          <button className="transaction-button">View transactions</button>
-        </div>
-      </div>
+        <Account
+            title="Argent Bank Savings"
+            accountNumber="x6712"
+            amount="10,928.42"
+            description="Available Balance"
+        />
+
+        <Account
+            title="Argent Bank Credit Card"
+            accountNumber="x8349"
+            amount="184.30"
+            description="Current Balance"
+        />
     </main>
+
   );
 };
 

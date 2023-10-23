@@ -28,15 +28,18 @@ const Header = () => {
         <h1 className="sr-only">Argent Bank</h1>
       </Link>
       <div>
-        {isLoggedIn ? (
-          <>
-          <FontAwesomeIcon className="iconsignin" icon={faUserCircle} />
-          <span className="username">{userName}</span>
-          <FontAwesomeIcon className="iconsignout" icon={faSignOut} />
-          <a onClick={handleLogout} className="main-nav-item">Sign Out</a>
-        </>
-        
-        ) : (
+      {isLoggedIn ? (
+  <>
+    <Link to="/user" className="user-link">
+      <FontAwesomeIcon className="iconsignin" icon={faUserCircle} />
+      <span className="username">{userName}</span>
+    </Link>
+    <FontAwesomeIcon className="iconsignout" icon={faSignOut} />
+    <a onClick={handleLogout} className="main-nav-item">
+      Sign Out
+    </a>
+  </>
+) : (
           <Link to="/sign-in" className="main-nav-item">
             <FontAwesomeIcon className="iconsignin" icon={faUserCircle} />
             Sign In
